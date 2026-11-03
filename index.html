@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0}</style>
+</head>
+<body>
+<title>Digital Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Familjen+Grotesk:ital,wght@0,400;0,500;0,700;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a quiet header, a 3-up grid of work, a short about. The whole page is printed in two inks (paper + ink) picked at random per visit; the work itself always shows in its real colours. One throwable sticker. Single visual world by choice: no dark variant. */
+:root {
+  color-scheme: light;
+  --paper: #D9C8FF;
+  --ink: #1D5C3C;
+  --soft: color-mix(in srgb, var(--ink) 60%, var(--paper));
+  --line: color-mix(in srgb, var(--ink) 35%, var(--paper));
+  --display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Spline Sans Mono", ui-monospace, Consolas, monospace;
+}
+html.p1 { --paper: #D9C8FF; --ink: #1D5C3C; }
+html.p2 { --paper: #FFD3C4; --ink: #2733D6; }
+html.p3 { --paper: #C4F0DC; --ink: #3A2689; }
+html.p4 { --paper: #D3E5FF; --ink: #C8261B; }
+html.p5 { --paper: #F1F1EB; --ink: #1E1D22; }
+html.p6 { --paper: #FFE0F1; --ink: #0E5A66; }
+html.p7 { --paper: #FFEFA6; --ink: #B0135E; }
+
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+a { color: inherit; text-underline-offset: 3px; }
+:focus-visible { outline: 2px dashed var(--ink); outline-offset: 4px; }
+button { font: inherit; color: inherit; }
+::selection { background: var(--ink); color: var(--paper); }
+
+.wrap {
+  max-width: 1240px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* header */
+header { padding-block: 28px 52px; }
+header .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 40px; align-items: start; }
+/* the name, set small and left; the rule under it runs the full width */
+.top { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; margin: 0 0 16px; padding-bottom: 18px; border-bottom: 1.5px solid var(--ink); }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(36px, 4.6vw, 60px); line-height: 1; margin: 0; letter-spacing: -.035em; }
+.intro { margin: 0; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.4; max-width: 30em; }
+.inks { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right; }
+.swatches { display: flex; gap: 6px; align-items: center; font-family: var(--mono); font-size: 12px; }
+.swatches i { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--ink); display: inline-block; }
+.swatches i.ink { background: var(--ink); }
+.swatches i.paper { background: var(--paper); }
+.reroll { background: none; border: 1.5px solid var(--ink); border-radius: 99px; padding: 5px 14px; font-size: 14px; cursor: pointer; }
+.reroll:hover { background: var(--ink); color: var(--paper); }
+.note { font-family: var(--mono); font-size: 11.5px; color: var(--soft); max-width: 26em; margin: 0; }
+
+/* grid */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 24px; padding-bottom: 72px; }
+.card { display: flex; flex-direction: column; gap: 10px; background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
+.pic { position: relative; aspect-ratio: 4 / 5; max-width: 100%; overflow: hidden; background: var(--ink); }
+.pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.pic img { transition: transform .5s ease; }
+.card:hover .pic img, .card:focus-visible .pic img { transform: scale(1.03); }
+.card .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.card h2 { font-family: var(--display); font-size: 20px; font-weight: 700; letter-spacing: -.01em; margin: 0; line-height: 1.2; }
+.card .meta { font-family: var(--mono); font-size: 12px; color: var(--soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.card .kind { font-size: 14px; color: var(--soft); margin-top: -6px; }
+
+/* about */
+.about { border-top: 1.5px solid var(--ink); padding-block: 28px 96px; }
+.about .wrap { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px 56px; }
+.about .big { font-size: clamp(20px, 2.2vw, 26px); line-height: 1.35; margin: 0; max-width: 30em; }
+.about dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; align-content: start; }
+.about dt { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); padding-top: 3px; }
+.about dd { margin: 0; overflow-wrap: anywhere; }
+
+/* project view */
+.view {
+  position: fixed; inset: 0; z-index: 40;
+  background: var(--paper); overflow-y: auto;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  opacity: 0; visibility: hidden; transform: translateY(16px);
+  transition: opacity .3s, transform .3s, visibility 0s .3s;
+}
+.view.on { opacity: 1; visibility: visible; transform: none; transition: opacity .3s, transform .3s; }
+.view .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); gap: 32px 48px; padding-block: 24px 80px; }
+.view .text { position: sticky; top: 24px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
+.view .close { align-self: flex-start; background: none; border: 1.5px solid var(--ink); border-radius: 99px; padding: 5px 14px; font-size: 14px; cursor: pointer; }
+.view .close:hover { background: var(--ink); color: var(--paper); }
+.view h2 { font-family: var(--display); font-weight: 700; letter-spacing: -.03em; font-size: clamp(36px, 4.5vw, 60px); line-height: .95; margin: 8px 0 0; text-wrap: balance; }
+.view .lead { font-size: 19px; line-height: 1.4; margin: 0; }
+.view p { margin: 0; }
+.view dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; }
+.view dt { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); padding-top: 3px; }
+.view dd { margin: 0; }
+.view .next { align-self: flex-start; background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; font-size: 15px; }
+.shots { display: flex; flex-direction: column; gap: 20px; }
+.shots figure { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.shots img { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+.shots img.real { aspect-ratio: auto; height: auto; }
+.shots img.real.tall { width: auto; max-height: 92vh; align-self: flex-start; }
+.shots figcaption { font-family: var(--mono); font-size: 11.5px; color: var(--soft); font-variant-numeric: tabular-nums; }
+
+/* the sticker */
+.sticker {
+  position: fixed; left: 0; top: 0; z-index: 30;
+  width: 112px; height: 112px;
+  touch-action: none; user-select: none; cursor: grab;
+  filter: drop-shadow(2px 3px 0 rgba(0,0,0,.18));
+}
+.sticker:active { cursor: grabbing; }
+.sticker circle { fill: var(--ink); }
+.sticker text { fill: var(--paper); font-family: var(--display); font-weight: 700; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 16px; }
+  .view .wrap { grid-template-columns: minmax(0, 1fr); }
+  .view .text { position: static; }
+}
+@media (max-width: 640px) {
+  header .wrap { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  .top { margin-bottom: -4px; }
+  .inks { align-items: flex-start; text-align: left; }
+  .about .wrap { grid-template-columns: minmax(0, 1fr); }
+  .card h2 { font-size: 17px; }
+  .sticker { width: 88px; height: 88px; }
+  .shots img.real.tall { width: 100%; max-height: none; }
+}
+@media (max-width: 420px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="duo" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="0.3 0.59 0.11 0 0  0.3 0.59 0.11 0 0  0.3 0.59 0.11 0 0  0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR id="fr" type="table" tableValues="0 1"/>
+      <feFuncG id="fg" type="table" tableValues="0 1"/>
+      <feFuncB id="fb" type="table" tableValues="0 1"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <h1>Bianca Grosso</h1>
+      <div class="swatches"><i class="paper"></i><i class="ink"></i><span id="inkName">Lilac paper, green ink</span></div>
+    </div>
+    <p class="intro">Graphic designer, freshly graduated. Posters, books, identities and type, mostly made for things I wish existed.</p>
+    <div class="inks">
+      <button class="reroll" id="reroll" type="button">↻ print with two new inks</button>
+      <p class="note">This page is printed in two inks, picked at random on every visit. The work always shows in its own colours.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+</main>
+
+<section class="about">
+  <div class="wrap">
+    <p class="big">I'm Bianca, a graphic designer who just graduated. So far my work is personal projects: I set my own briefs, print them myself and learn by making. I'm looking for first commissions, internships and collaborations.</p>
+    <dl>
+      <dt>Contact</dt><dd><a href="mailto:biancagrosso.bg@gmail.com">biancagrosso.bg@gmail.com</a></dd>
+      <dt>Education</dt><dd>2026, Graphic Design degree (school to add)</dd>
+      <dt>Work with</dt><dd>Editorial, identity, illustration, type, print</dd>
+      <dt>Note</dt><dd style="color:var(--soft)">Some projects and images are still samples. Send Claude your real ones to swap them in.</dd>
+    </dl>
+  </div>
+</section>
+
+<div class="view" id="view" role="dialog" aria-modal="true" aria-labelledby="view-title">
+  <div class="wrap" id="viewBody"></div>
+</div>
+
+<svg class="sticker" id="sticker" viewBox="0 0 112 112" aria-hidden="true">
+  <circle cx="56" cy="56" r="52"/>
+  <text x="56" y="54" text-anchor="middle" font-size="27">ciao!</text>
+  <text x="56" y="78" text-anchor="middle" font-size="13">throw me</text>
+</svg>
+
+<script>
+// ---------- two inks ----------
+const PALETTES = {
+  p1: "Lilac paper, green ink", p2: "Peach paper, blue ink", p3: "Mint paper, purple ink",
+  p4: "Sky paper, red ink", p5: "White paper, black ink", p6: "Pink paper, teal ink", p7: "Yellow paper, magenta ink"
+};
+const keys = Object.keys(PALETTES);
+let current = "";
+function hexToRgb(h) { h = h.replace("#", ""); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16) / 255); }
+function roll() {
+  let next;
+  do { next = keys[Math.floor(Math.random() * keys.length)]; } while (next === current);
+  if (current) document.documentElement.classList.remove(current);
+  document.documentElement.classList.add(next);
+  current = next;
+  document.getElementById("inkName").textContent = PALETTES[next];
+  const cs = getComputedStyle(document.documentElement);
+  const ink = hexToRgb(cs.getPropertyValue("--ink").trim()), paper = hexToRgb(cs.getPropertyValue("--paper").trim());
+  ["fr", "fg", "fb"].forEach((id, i) => document.getElementById(id).setAttribute("tableValues", ink[i].toFixed(3) + " " + paper[i].toFixed(3)));
+}
+roll();
+document.getElementById("reroll").addEventListener("click", roll);
+
+// ---------- projects ----------
+// Real projects carry `cover` and `shots` (each { src, caption, tall? }). Projects without them are samples with generated artwork.
+const PROJECTS = [
+  { title: "Il nostro ricettario", year: "2026", kind: "Illustrated recipe book", real: true,
+    cover: "img/ricettario-cover.jpg",
+    shots: [
+      { src: "img/ricettario-dicembre.jpg", caption: "December spread: Christmas biscuits" },
+      { src: "img/ricettario-cover.jpg", caption: "Cover, hardcover", tall: true }
+    ],
+    lead: "A recipe book organised month by month, where every recipe is told through the people who cooked it together.",
+    text: "Each spread pairs a flat, cut-shape illustration with the ingredients sorted into spices, pantry and cooking, and the method written as a short story: who pounded the cloves, who rolled out the dough, who kept a few biscuits aside for friends. Every cook has a small symbol of their own, which marks their part in the illustration.",
+    spec: [["Format", "Hardcover book"], ["Structure", "One recipe per month"], ["Work", "Editorial design, illustration"]] },
+  { title: "Night Market", year: "2026", kind: "Poster series", colours: ["#FF3B6B", "#1E40FF", "#FFD23F"], n: 4,
+    lead: "Posters for an imaginary summer night market under a railway bridge. Every week the two inks swap, so the series slowly changes colour over the season.",
+    text: "Each poster is built from the shapes of market stalls seen from above. The type was cut from paper, scanned and printed slightly off register on purpose.",
+    spec: [["Format", "70×100 cm, 3 posters"], ["Print", "Risograph, 2 inks"], ["Brief", "Self-set"]] },
+  { title: "Molo", year: "2025", kind: "Identity & packaging", colours: ["#C9A27A", "#1B1B1B", "#FF6A2B"], n: 3,
+    lead: "An identity for a made-up roastery on the harbour. The logo is a bollard, and the bags are stamped by hand, one origin per colour.",
+    text: "Stamps instead of printed labels keep each batch cheap and make every bag slightly different.",
+    spec: [["Scope", "Logo, bags, stamps, menu"], ["Print", "Rubber stamp on kraft paper"], ["Brief", "Self-set"]] },
+  { title: "Field Notes on Birds", year: "2024", kind: "Illustrated zine", colours: ["#2F6BFF", "#FFE14D", "#3FBF6B"], n: 5,
+    lead: "A pocket guide to the birds of a city park, each drawn in a single afternoon and printed in two inks that overlap into green.",
+    text: "Printed and stapled at home.",
+    spec: [["Format", "A5, 24 pages"], ["Print", "Risograph, blue + yellow"], ["Edition", "150 copies"]] },
+  { title: "Line 8", year: "2024", kind: "Display typeface", colours: ["#FF5FC1", "#262626", "#F2F2F2"], n: 3,
+    lead: "A display typeface drawn from the numbers painted on old trams, extended to a full alphabet.",
+    text: "Still in progress. A trial version is available on request.",
+    spec: [["Styles", "Regular, Bold, Stencil"], ["Glyphs", "212, Latin basic"]] },
+  { title: "Sun Club", year: "2023", kind: "Record sleeve", colours: ["#FFC400", "#FF4D1F", "#173B6C"], n: 3,
+    lead: "Cover art for an imaginary debut record, printed by hand with a yellow sun that never lands in the same place twice.",
+    text: "",
+    spec: [["Format", "12″ sleeve + insert"], ["Print", "Screen print, 2 colours"], ["Brief", "Self-set"]] }
+];
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function rng(seed) {
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+// placeholder artwork in each sample project's own colours, so the hover reveal has something to show
+function placeholder(p, idx, k, w, h) {
+  const cv = document.createElement("canvas");
+  cv.width = w; cv.height = h;
+  const ctx = cv.getContext("2d"), r = rng(idx * 1000 + k * 37 + 7);
+  ctx.fillStyle = "#F7F5F0"; ctx.fillRect(0, 0, w, h);
+  ctx.globalCompositeOperation = "multiply";
+  for (let i = 0, n = 4 + Math.floor(r() * 4); i < n; i++) {
+    ctx.fillStyle = p.colours[Math.floor(r() * p.colours.length)];
+    const x = r() * w, y = r() * h, s = (0.25 + r() * 0.5) * Math.min(w, h), kind = Math.floor(r() * 4);
+    ctx.beginPath();
+    if (kind === 0) ctx.arc(x, y, s / 2, 0, Math.PI * 2);
+    else if (kind === 1) ctx.rect(x - s / 2, y - s / 3, s, s * 0.7);
+    else if (kind === 2) { ctx.arc(x, y, s / 2, Math.PI, 0); ctx.closePath(); }
+    else { ctx.moveTo(x, y - s / 2); ctx.lineTo(x + s / 2, y + s / 2); ctx.lineTo(x - s / 2, y + s / 2); ctx.closePath(); }
+    ctx.fill();
+  }
+  ctx.globalCompositeOperation = "source-over";
+  ctx.globalAlpha = 0.07; ctx.fillStyle = "#000";
+  for (let g = 0; g < w * h / 300; g++) ctx.fillRect(r() * w, r() * h, 2, 2);
+  return cv.toDataURL("image/jpeg", 0.85);
+}
+PROJECTS.forEach((p, i) => {
+  if (p.real) return;
+  p.cover = placeholder(p, i, 0, 640, 800);
+  p.shots = Array.from({ length: p.n }, (_, k) => ({ src: placeholder(p, i, k + 1, 1200, 900), caption: "sample image" }));
+});
+
+// ---------- grid ----------
+const grid = document.getElementById("grid");
+PROJECTS.forEach((p, i) => {
+  const b = document.createElement("button");
+  b.className = "card"; b.type = "button";
+  b.innerHTML = `
+    <div class="pic"><img src="${p.cover}" alt=""></div>
+    <div class="row"><h2>${esc(p.title)}</h2><span class="meta">${esc(p.year)}</span></div>
+    <div class="kind">${esc(p.kind)}</div>`;
+  b.setAttribute("aria-label", `${p.title}, ${p.year}, ${p.kind}. Open project`);
+  b.addEventListener("click", () => openView(i, b));
+  grid.append(b);
+});
+
+// ---------- project view ----------
+const view = document.getElementById("view"), viewBody = document.getElementById("viewBody");
+let opener = null;
+function openView(i, from) {
+  const p = PROJECTS[i], nxt = (i + 1) % PROJECTS.length;
+  if (from) opener = from;
+  viewBody.innerHTML = `
+    <div class="text">
+      <button class="close" type="button" id="closeView">← all projects</button>
+      <h2 id="view-title">${esc(p.title)}</h2>
+      <p class="lead">${esc(p.lead)}</p>
+      ${p.text ? `<p>${esc(p.text)}</p>` : ""}
+      <dl><dt>Year</dt><dd>${esc(p.year)}</dd>${p.spec.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+      <button class="next" type="button" id="nextView">Next: ${esc(PROJECTS[nxt].title)} →</button>
+    </div>
+    <div class="shots">${p.shots.map((s, k) => `<figure><img class="${p.real ? "real" : ""}${s.tall ? " tall" : ""}" src="${s.src}" alt="${esc(p.title)}: ${esc(s.caption)}" loading="lazy"><figcaption>${k + 1}/${p.shots.length} · ${esc(s.caption)}</figcaption></figure>`).join("")}</div>`;
+  document.getElementById("closeView").addEventListener("click", closeView);
+  document.getElementById("nextView").addEventListener("click", () => openView(nxt));
+  view.scrollTop = 0;
+  view.classList.add("on");
+  document.body.style.overflow = "hidden";
+  document.getElementById("closeView").focus({ preventScroll: true });
+}
+function closeView() {
+  view.classList.remove("on");
+  document.body.style.overflow = "";
+  if (opener) opener.focus({ preventScroll: true });
+}
+addEventListener("keydown", e => { if (e.key === "Escape" && view.classList.contains("on")) closeView(); });
+
+// ---------- one throwable sticker ----------
+const st = document.getElementById("sticker");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const s = { x: 0, y: 0, vx: 0, vy: 0, rot: -12, vr: 0, drag: false, hist: [] };
+function size() { return st.getBoundingClientRect().width || 112; }
+s.x = innerWidth - size() - 28; s.y = innerHeight - size() - 36;
+st.addEventListener("pointerdown", e => { st.setPointerCapture(e.pointerId); s.drag = true; s.ox = e.clientX - s.x; s.oy = e.clientY - s.y; s.hist = []; });
+st.addEventListener("pointermove", e => {
+  if (!s.drag) return;
+  s.x = e.clientX - s.ox; s.y = e.clientY - s.oy;
+  s.hist.push({ x: s.x, y: s.y, t: performance.now() }); if (s.hist.length > 5) s.hist.shift();
+});
+function release() {
+  if (!s.drag) return;
+  s.drag = false;
+  const h = s.hist;
+  if (!reduce && h.length > 1) {
+    const a = h[0], b = h[h.length - 1], dt = Math.max(16, b.t - a.t);
+    s.vx = (b.x - a.x) / dt * 16; s.vy = (b.y - a.y) / dt * 16; s.vr = s.vx * 0.4;
+  }
+}
+st.addEventListener("pointerup", release);
+st.addEventListener("pointercancel", release);
+(function tick() {
+  const z = size(), W = innerWidth, H = innerHeight;
+  if (!s.drag) {
+    s.x += s.vx; s.y += s.vy; s.rot += s.vr;
+    s.vx *= 0.965; s.vy *= 0.965; s.vr *= 0.95;
+    if (s.x < 0) { s.x = 0; s.vx = -s.vx * 0.7; }
+    if (s.x > W - z) { s.x = W - z; s.vx = -s.vx * 0.7; }
+    if (s.y < 0) { s.y = 0; s.vy = -s.vy * 0.7; }
+    if (s.y > H - z) { s.y = H - z; s.vy = -s.vy * 0.7; }
+  }
+  st.style.transform = `translate(${s.x}px, ${s.y}px) rotate(${s.rot}deg)`;
+  requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>
